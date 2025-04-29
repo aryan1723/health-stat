@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health & Fitness Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="theme-switch-container">
+        <button id="theme-switch" class="theme-switch" aria-label="Toggle theme">
+            <i class="fas fa-moon"></i> </button>
+    </div>
+
+    <div class="chatbot-toggle" id="chatbot-toggle" aria-label="Toggle chatbot">
+        <i class="fas fa-robot"></i>
+    </div>
+
+    <div class="chatbot-popup" id="chatbot-popup" role="dialog" aria-modal="true" aria-labelledby="chatbot-header-title">
+        <div class="chatbot-header">
+            <h3 id="chatbot-header-title">Health Assistant</h3>
+            <button class="close-chatbot" aria-label="Close chatbot"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="chatbot-messages" id="chatbot-messages" aria-live="polite">
+            <div class="bot-message">
+                <p>Hello! I'm your health assistant. Enter your details first, then ask me anything about fitness and nutrition!</p>
+            </div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="chatbot-input" placeholder="Type your question..." aria-label="Chat input">
+            <button id="send-message" aria-label="Send message"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <div class="container-fluid glass-container">
+        <h1 class="text-center mb-4">Health-Stat Dashboard</h1>
+
+        <div class="row">
+            <div class="col-lg-6 left-column">
+
+                <div class="glass-card">
+                    <h2><i class="fas fa-user-circle"></i> Your Biometrics</h2>
+                    <form id="biometrics-form" aria-labelledby="biometrics-heading">
+                    <h2 id="biometrics-heading" class="visually-hidden">Biometrics Input Form</h2> <div class="unit-switcher mb-3">
+                            <button type="button" class="unit-btn active" data-unit="metric">Metric (cm/kg)</button>
+                            <button type="button" class="unit-btn" data-unit="imperial">Imperial (ft/lbs)</button>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="name">Name</label>
+                                    <input type="text" id="name" class="form-control glass-input" placeholder="Enter your name" required>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="age">Age</label>
+                                    <input type="number" id="age" class="form-control glass-input" required min="10" placeholder="18" max="120" aria-label="Age in years">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="gender">Gender</label>
+                                    <select id="gender" class="form-control glass-input" aria-label="Select gender">
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                    </select>
+                                </div>
+                                <div class="form-group metric-unit mb-3">
+                                    <label for="height-cm">Height (cm)</label>
+                                    <input type="number" id="height-cm" class="form-control glass-input" required min="100" placeholder="150" max="250" aria-label="Height in centimeters">
+                                </div>
+                                <div class="form-group imperial-unit mb-3" style="display:none;">
+                                    <label>Height (ft/in)</label>
+                                    <div class="input-group">
+                                        <input type="number" id="height-ft" class="form-control glass-input" placeholder="Feet" min="3" max="8" aria-label="Height in feet">
+                                        <input type="number" id="height-in" class="form-control glass-input" placeholder="Inches" min="0" max="11" aria-label="Height in inches">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group metric-unit mb-3">
+                            <label for="weight-kg">Weight (kg)</label>
+                            <input type="number" id="weight-kg" class="form-control glass-input" required min="30" placeholder="50" max="300" aria-label="Weight in kilograms">
+                        </div>
+                        <div class="form-group imperial-unit mb-3" style="display:none;">
+                            <label for="weight-lbs">Weight (lbs)</label>
+                            <input type="number" id="weight-lbs" class="form-control glass-input" min="66" max="660" aria-label="Weight in pounds">
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="activity-level">Activity Level</label>
+                            <select id="activity-level" class="form-control glass-input" aria-label="Select activity level">
+                                <option value="1.2">Sedentary (little exercise)</option>
+                                <option value="1.375">Light Activity (1-3 days/week)</option>
+                                <option value="1.55">Moderate Activity (3-5 days/week)</option>
+                                <option value="1.725">Very Active (6-7 days/week)</option>
+                                <option value="1.9">Extreme Activity (2x day)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="goal">Goal</label>
+                            <select id="goal" class="form-control glass-input" aria-label="Select fitness goal">
+                                <option value="lose">Lose Weight</option>
+                                <option value="maintain">Maintain Weight</option>
+                                <option value="gain">Gain Weight</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn glass-btn">Calculate</button>
+                    </form>
+                </div>
+
+                <div class="glass-card results-card" id="results-section" style="display: none;" aria-live="polite" aria-atomic="true">
+                     <h2 id="health-summary-heading"><i class="fas fa-chart-line"></i> Health Summary</h2>
+                    <div class="results-grid" aria-labelledby="health-summary-heading">
+                        <div class="result-item">
+                            <div class="result-icon" aria-hidden="true"><i class="fas fa-weight"></i></div>
+                            <div class="result-content">
+                                <h3>BMI</h3>
+                                <div class="result-value" id="bmi-result">--</div>
+                                <div class="result-label" id="bmi-category">--</div>
+                            </div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-icon" aria-hidden="true"><i class="fas fa-fire"></i></div>
+                            <div class="result-content">
+                                <h3>Calories</h3>
+                                <div class="result-value" id="calories-result">--</div>
+                                <div class="result-label" id="calories-goal">--</div>
+                            </div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-icon" aria-hidden="true"><i class="fas fa-tint"></i></div>
+                            <div class="result-content">
+                                <h3>Water</h3>
+                                <div class="result-value" id="water-intake">--</div>
+                                <div class="result-label">Daily Needs</div>
+                            </div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-icon" aria-hidden="true"><i class="fas fa-percentage"></i></div>
+                            <div class="result-content">
+                                <h3>Body Fat</h3>
+                                <div class="result-value" id="body-fat-value">--</div>
+                                <div class="result-label">Estimated</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card micronutrients-card" id="micronutrients-section" style="display: none;" aria-live="polite" aria-atomic="true">
+                    <h2 id="micronutrients-heading"><i class="fas fa-atom"></i> Micronutrient Needs (Estimates)</h2>
+                    <div class="results-grid" aria-labelledby="micronutrients-heading">
+                        <div class="result-item">
+                            <div class="result-icon micro-icon" aria-hidden="true"><i class="fas fa-leaf"></i></div>
+                            <div class="result-content">
+                                <h3>Zinc</h3>
+                                <div class="result-value" id="zinc-result">--</div>
+                                <div class="result-label">mg/day</div>
+                            </div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-icon micro-icon" aria-hidden="true"><i class="fas fa-tint-slash"></i></div>
+                            <div class="result-content">
+                                <h3>Iron</h3>
+                                <div class="result-value" id="iron-result">--</div>
+                                <div class="result-label">mg/day</div>
+                            </div>
+                        </div>
+                        <div class="result-item">
+                             <div class="result-icon micro-icon" aria-hidden="true"><i class="fas fa-bolt"></i></div>
+                            <div class="result-content">
+                                <h3>Magnesium</h3>
+                                <div class="result-value" id="magnesium-result">--</div>
+                                <div class="result-label">mg/day</div>
+                            </div>
+                        </div>
+                         <div class="result-item">
+                             <div class="result-icon micro-icon" aria-hidden="true"><i class="fas fa-bone"></i></div>
+                            <div class="result-content">
+                                <h3>Calcium</h3>
+                                <div class="result-value" id="calcium-result">--</div>
+                                <div class="result-label">mg/day</div>
+                            </div>
+                        </div>
+                    </div>
+                     <p class="disclaimer">Note: These are general estimates (RDAs). Individual needs may vary.</p>
+                </div>
+            </div>
+
+
+            <div class="col-lg-6 right-column">
+                <div class="glass-card chart-container">
+                    <h2 id="analytics-heading"><i class="fas fa-chart-area"></i> Health Analytics</h2>
+                    <div class="chart-placeholder" id="chart-placeholder" aria-labelledby="analytics-heading">
+                        <i class="fas fa-chart-bar" aria-hidden="true"></i>
+                        <p>Enter your biometric details to view health analytics</p>
+                    </div>
+                    <div class="charts-container" id="charts-container" style="display: none;" aria-labelledby="analytics-heading">
+                        <div class="chart-wrapper compact-chart">
+                            <canvas id="bmi-chart" role="img" aria-label="BMI Gauge Chart"></canvas>
+                            <div class="chart-title">BMI Analysis</div>
+                        </div>
+                        <div class="chart-wrapper compact-chart">
+                            <canvas id="body-fat-chart" role="img" aria-label="Body Fat Percentage Bar Chart"></canvas>
+                            <div class="chart-title">Body Fat %</div>
+                        </div>
+                        <div class="chart-wrapper compact-chart">
+                            <canvas id="macro-chart" role="img" aria-label="Macronutrient Split Pie Chart"></canvas>
+                            <div class="chart-title">Macronutrients</div>
+                        </div>
+                        <div class="chart-wrapper compact-chart">
+                            <canvas id="calorie-chart" role="img" aria-label="Calorie Breakdown Line Chart"></canvas>
+                            <div class="chart-title">Calorie Breakdown</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="js/script.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/chatbot.js"></script>
+</body>
+</html>
